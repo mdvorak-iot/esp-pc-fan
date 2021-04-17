@@ -1,6 +1,6 @@
 {
-    "name": "esp-lib-template",
-    "description": "TODO",
+    "name": "esp-pc-fan",
+    "description": "Common 4-pin PWM fan controller.",
     "keywords": "esp esp32",
     "repository": {
         "type": "git",
