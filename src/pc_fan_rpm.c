@@ -12,7 +12,7 @@ esp_err_t pc_fan_rpm_init(const struct pc_fan_rpm_config *cfg, pc_fan_rpm_handle
 {
     if (cfg == NULL
         || cfg->unit < 0 || cfg->unit >= PCNT_UNIT_MAX
-        || cfg->channel < 0 || cfg->channel <= PCNT_CHANNEL_MAX
+        || cfg->channel < 0 || cfg->channel >= PCNT_CHANNEL_MAX
         || cfg->pin < 0 || !GPIO_IS_VALID_GPIO(cfg->pin))
     {
         return ESP_ERR_INVALID_ARG;
