@@ -23,11 +23,13 @@ For full example, see [pc_fan_example_main.c](./example/main/pc_fan_example_main
 
 ### Sampling
 
-When using sampling, ideal number of samples used for average depends on sampling interval, 
-and desired response time to changes. More samples provides best accuracy, but also react
-to RPM changes slowly.
+When using sampling, ideal number of samples used for average depends on sampling interval, and desired response time to
+changes. More samples provides best accuracy, but also react to RPM changes slowly.
 
-Good values are 5 samples and sampling every 200 ms - that is, average on last second. 
+For continuous monitoring, good values are 5 samples and sampling every 200 ms - that is, average on last second.
+
+But if the readouts are in longer interval, e.g. 5 seconds, you may want to use just one sample, without any smoothing
+at all. Experiment with the values to suit your use-case.
 
 ## 4-Wire Fan Pins
 
