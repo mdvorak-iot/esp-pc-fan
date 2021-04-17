@@ -1,5 +1,5 @@
-# esp-lib-template
+# esp-pc-fan
 
-![platformio build](https://github.com/mdvorak-iot/esp-lib-template/workflows/platformio%20build/badge.svg)
+![platformio build](https://github.com/mdvorak-iot/esp-pc-fan/workflows/platformio%20build/badge.svg)
 
-TODO Description
+Common 4-pin PWM fan controller.
