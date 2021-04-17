@@ -1,11 +1,12 @@
-#include "lib.h"
 #include <esp_log.h>
+#include <pc_fan_control.h>
+#include <pc_fan_rpm.h>
 
 static const char TAG[] = "example";
 
 void app_main()
 {
-    lib_example();
+    // TODO
 
     // Setup complete
     ESP_LOGI(TAG, "started");
