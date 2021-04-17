@@ -208,3 +208,27 @@ uint16_t pc_fan_rpm_last_value(pc_fan_rpm_sampling_ptr sampling)
 {
     return sampling ? sampling->rpm : 0;
 }
+
+static void pc_fan_rpm_sampling_handler(void *arg)
+{
+    pc_fan_rpm_sampling_ptr sampling = (pc_fan_rpm_sampling_ptr)arg;
+    esp_err_t err = pc_fan_rpm_sample(sampling, NULL);
+    if (err != ESP_OK)
+    {
+        ESP_LOGD(TAG, "failed to sample rpm: %d", err);
+    }
+}
+
+esp_err_t pc_fan_rpm_sampling_timer_create(pc_fan_rpm_sampling_ptr sampling, esp_timer_handle_t *out_timer)
+{
+    esp_timer_create_args_t rpm_timer_args = {
+        .callback = pc_fan_rpm_sampling_handler,
+        .arg = sampling,
+        .dispatch_method = ESP_TIMER_TASK,
+        .name = "rpm_sampling",
+#if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(4, 4, 0)
+        .skip_unhandled_events = true,
+#endif
+    };
+    return esp_timer_create(&rpm_timer_args, out_timer);
+}
