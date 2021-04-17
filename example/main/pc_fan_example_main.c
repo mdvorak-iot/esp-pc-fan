@@ -45,10 +45,16 @@ _Noreturn void app_main()
 
     while (1)
     {
+        // Cycle duty by 25% every 10 seconds
+        float duty = (float)((esp_timer_get_time() / 10000000) % 4) * 0.25f;
+        ESP_ERROR_CHECK_WITHOUT_ABORT(pc_fan_control_set_duty(HW_PWM_CHANNEL, duty));
+
+        // Print RPM
         uint16_t rpm = 0;
         ESP_ERROR_CHECK_WITHOUT_ABORT(pc_fan_rpm_sample(rpm_sampling, &rpm));
-        ESP_LOGI(TAG, "rpm: %d", rpm);
+        ESP_LOGI(TAG, "rpm: %d\t duty: %d", rpm, (int)(duty * 100));
 
+        // Wait
         vTaskDelay(200 / portTICK_PERIOD_MS);
     }
 }

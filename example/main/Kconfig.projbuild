@@ -5,11 +5,11 @@ menu "Hardware config"
 
     config HW_RPM_PIN
         int "Fan RPM reporting PIN"
-        default 32
+        default 26
 
     config HW_RPM_SAMPLES
         int "Fan RPM samples count"
-        default 10
+        default 5
         help
             How many samples are used to smooth the RPM value.
 endmenu
