@@ -18,7 +18,7 @@ esp_err_t pc_fan_rpm_init(const struct pc_fan_rpm_config *cfg, pc_fan_rpm_handle
         return ESP_ERR_INVALID_ARG;
     }
 
-    ESP_LOGI(TAG, "configuring pc fan rpm %d/%d on pin %d", cfg->channel, cfg->unit, cfg->pin);
+    ESP_LOGI(TAG, "configuring pc fan rpm on pin %d (unit %d)", cfg->pin, cfg->unit);
 
     // Config
     pcnt_config_t pcnt_config = {

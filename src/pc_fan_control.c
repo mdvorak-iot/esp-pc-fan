@@ -15,7 +15,7 @@ esp_err_t pc_fan_control_init(gpio_num_t pin, ledc_timer_t timer, ledc_channel_t
         return ESP_ERR_INVALID_ARG;
     }
 
-    ESP_LOGI(TAG, "initializing ledc timer %d channel %d on pin %d to frequency %d with resolution %d and max duty %.0f", timer, channel, pin, FAN_CONTROL_FREQ_HZ, FAN_CONTROL_RESOLUTION, FAN_CONTROL_MAX_DUTY);
+    ESP_LOGI(TAG, "initializing fan pwm on pin %d (timer %d, channel %d)", pin, timer, channel);
 
     // Timer
     ledc_timer_config_t timerConfig = {};
