@@ -26,6 +26,7 @@ esp_err_t pc_fan_control_init(gpio_num_t pin, ledc_timer_t timer, ledc_channel_t
     esp_err_t err = ledc_timer_config(&timerConfig);
     if (err != ESP_OK)
     {
+        ESP_LOGE(TAG, "ledc_timer_config failed: %d %s", err, esp_err_to_name(err));
         return err;
     }
 
@@ -36,7 +37,15 @@ esp_err_t pc_fan_control_init(gpio_num_t pin, ledc_timer_t timer, ledc_channel_t
     channelConfig.gpio_num = pin;
     channelConfig.speed_mode = LEDC_HIGH_SPEED_MODE;
     channelConfig.duty = 0;
-    return ledc_channel_config(&channelConfig);
+    err = ledc_channel_config(&channelConfig);
+    if (err != ESP_OK)
+    {
+        ESP_LOGE(TAG, "ledc_channel_config failed: %d %s", err, esp_err_to_name(err));
+        return err;
+    }
+
+    // Success
+    return ESP_OK;
 }
 
 esp_err_t pc_fan_control_set_duty(ledc_channel_t channel, float duty_percent)
