@@ -25,9 +25,37 @@ struct pc_fan_rpm_handle
     pcnt_unit_t unit;
 };
 
-esp_err_t pc_fan_rpm_init(const struct pc_fan_rpm_config *cfg, struct pc_fan_rpm_handle **out_handle);
+typedef struct pc_fan_rpm_handle *pc_fan_rpm_handle_ptr;
 
-esp_err_t pc_fan_rpm_counter_value(const struct pc_fan_rpm_handle *handle, int16_t *count);
+esp_err_t pc_fan_rpm_init(const struct pc_fan_rpm_config *cfg, pc_fan_rpm_handle_ptr *out_handle);
+
+void pc_fan_rpm_delete(pc_fan_rpm_handle_ptr handle);
+
+esp_err_t pc_fan_rpm_counter_value(pc_fan_rpm_handle_ptr handle, int16_t *count);
+
+struct pc_fan_rpm_sampling
+{
+    pc_fan_rpm_handle_ptr handle;
+    uint16_t rpm;
+    uint32_t value_total;
+    size_t samples_len;
+    size_t samples_index;
+    struct pc_fan_rpm_readout
+    {
+        int64_t timestamp;
+        int16_t count;
+        uint16_t value;
+    } * samples;
+};
+typedef struct pc_fan_rpm_sampling *pc_fan_rpm_sampling_ptr;
+
+esp_err_t pc_fan_rpm_sampling_init(size_t samples_len, pc_fan_rpm_handle_ptr handle, pc_fan_rpm_sampling_ptr *out_sampling);
+
+void pc_fan_rpm_sampling_delete(pc_fan_rpm_sampling_ptr sampling);
+
+esp_err_t pc_fan_rpm_sample(pc_fan_rpm_sampling_ptr sampling, uint16_t *rpm);
+
+uint16_t pc_fan_rpm_last_value(pc_fan_rpm_sampling_ptr sampling);
 
 #ifdef __cplusplus
 }

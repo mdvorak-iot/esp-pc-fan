@@ -1,10 +1,14 @@
 #include "pc_fan_rpm.h"
 #include <driver/pcnt.h>
 #include <esp_log.h>
+#include <esp_timer.h>
+#include <string.h>
+
+#define COUNTER_HIGH_LIMIT INT16_MAX
 
 static const char TAG[] = "pc_fan_rpm";
 
-esp_err_t pc_fan_rpm_init(const struct pc_fan_rpm_config *cfg, struct pc_fan_rpm_handle **out_handle)
+esp_err_t pc_fan_rpm_init(const struct pc_fan_rpm_config *cfg, pc_fan_rpm_handle_ptr *out_handle)
 {
     if (cfg == NULL
         || cfg->unit < 0 || cfg->unit >= PCNT_UNIT_MAX
@@ -24,7 +28,7 @@ esp_err_t pc_fan_rpm_init(const struct pc_fan_rpm_config *cfg, struct pc_fan_rpm
         .hctrl_mode = PCNT_MODE_KEEP,
         .pos_mode = PCNT_COUNT_INC,
         .neg_mode = PCNT_COUNT_INC,
-        .counter_h_lim = INT16_MAX,
+        .counter_h_lim = COUNTER_HIGH_LIMIT,
         .counter_l_lim = 0,
         .unit = cfg->unit,
         .channel = cfg->channel,
@@ -80,7 +84,22 @@ esp_err_t pc_fan_rpm_init(const struct pc_fan_rpm_config *cfg, struct pc_fan_rpm
     return ESP_OK;
 }
 
-esp_err_t pc_fan_rpm_counter_value(const struct pc_fan_rpm_handle *handle, int16_t *count)
+void pc_fan_rpm_delete(pc_fan_rpm_handle_ptr handle)
+{
+    if (handle == NULL)
+    {
+        return;
+    }
+
+    // No way to actually delete counter as of idf 4.2
+    pcnt_counter_pause(handle->unit);
+    pcnt_counter_clear(handle->unit);
+
+    // Free
+    free(handle);
+}
+
+esp_err_t pc_fan_rpm_counter_value(pc_fan_rpm_handle_ptr handle, int16_t *count)
 {
     if (handle == NULL)
     {
@@ -88,4 +107,104 @@ esp_err_t pc_fan_rpm_counter_value(const struct pc_fan_rpm_handle *handle, int16
     }
 
     return pcnt_get_counter_value(handle->unit, count);
+}
+
+esp_err_t pc_fan_rpm_sampling_init(size_t samples_len, pc_fan_rpm_handle_ptr handle, pc_fan_rpm_sampling_ptr *out_sampling)
+{
+    if (handle == NULL || out_sampling == NULL || samples_len < 1)
+    {
+        return ESP_ERR_INVALID_ARG;
+    }
+
+    // Current counter value
+    // NOTE this also validates that counter is initialized
+    int16_t count = 0;
+    esp_err_t err = pc_fan_rpm_counter_value(handle, &count);
+    if (err != ESP_OK)
+    {
+        return err;
+    }
+
+    // Prepare structure
+    struct pc_fan_rpm_sampling *sampling = malloc(sizeof(*sampling));
+    memset(sampling, 0, sizeof(*sampling));
+
+    sampling->handle = handle;
+    sampling->samples_len = samples_len;
+    sampling->samples = calloc(samples_len, sizeof(*sampling->samples));
+
+    int64_t now = esp_timer_get_time();
+
+    for (size_t i = 0; i < samples_len; i++)
+    {
+        sampling->samples[i].timestamp = now;
+        sampling->samples[i].count = count;
+        sampling->samples[i].value = 0;
+    }
+
+    // Return
+    *out_sampling = sampling;
+    return ESP_OK;
+}
+
+void pc_fan_rpm_sampling_delete(pc_fan_rpm_sampling_ptr sampling)
+{
+    if (sampling == NULL)
+    {
+        return;
+    }
+
+    free(sampling->samples);
+    free(sampling);
+}
+
+esp_err_t pc_fan_rpm_sample(pc_fan_rpm_sampling_ptr sampling, uint16_t *rpm)
+{
+    if (sampling == NULL)
+    {
+        return ESP_ERR_INVALID_ARG;
+    }
+
+    // Current time
+    int64_t now = esp_timer_get_time();
+
+    // Get count (ignore error, just use zero)
+    int16_t count = 0;
+    pc_fan_rpm_counter_value(sampling->handle, &count);
+
+    // Calculate
+    size_t oldest_index = (sampling->samples_index + 1) % sampling->samples_len;
+    struct pc_fan_rpm_readout *oldest = &sampling->samples[oldest_index];
+
+    uint32_t revs = ((uint32_t)COUNTER_HIGH_LIMIT + count - oldest->count) % COUNTER_HIGH_LIMIT;
+    int64_t elapsed = now - oldest->timestamp;
+
+    // 15000000 = 60000000 / pulses per rev / rising and falling edge = 60000000 / 2 / 2
+    int16_t value = (int16_t)(15000000 * revs / elapsed);
+
+    // Average
+    sampling->value_total -= oldest->value;
+    sampling->value_total += value;
+
+    // Add new readout - overwrite oldest index and use it as new one (this handles index overflow as well)
+    oldest->timestamp = now;
+    oldest->count = count;
+    oldest->value = value;
+    sampling->samples_index = oldest_index;
+
+    // Expose final value
+    sampling->rpm = sampling->value_total / sampling->samples_len;
+
+    if (rpm != NULL)
+    {
+        *rpm = sampling->rpm;
+    }
+
+    // Success
+    return ESP_OK;
+}
+
+uint16_t pc_fan_rpm_last_value(pc_fan_rpm_sampling_ptr sampling)
+{
+    return sampling ? sampling->rpm : 0;
 }
