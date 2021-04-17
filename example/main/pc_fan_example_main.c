@@ -8,7 +8,7 @@
 #define HW_PWM_TIMER LEDC_TIMER_0
 #define HW_PWM_CHANNEL LEDC_CHANNEL_0
 #define HW_RPM_PIN CONFIG_HW_RPM_PIN
-#define HW_RPM_UNIT PCNT_UNIT_4
+#define HW_RPM_UNIT PCNT_UNIT_3
 #define HW_RPM_SAMPLES CONFIG_HW_RPM_SAMPLES
 
 static const char TAG[] = "example";

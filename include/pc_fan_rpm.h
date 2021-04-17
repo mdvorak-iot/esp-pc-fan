@@ -1,10 +1,5 @@
 #pragma once
 
-#include <esp_idf_version.h>
-#if ESP_IDF_VERSION < ESP_IDF_VERSION_VAL(4, 3, 0)
-#include <soc/pcnt_caps.h> // This must be first, this header is missing in hal/pcnt_types.h in IDF 4.2
-#endif
-
 #include <esp_err.h>
 #include <hal/gpio_types.h>
 #include <hal/pcnt_types.h>
