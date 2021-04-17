@@ -1,6 +1,6 @@
-name: "lib_template"
-description: TODO description.
-url: https://github.com/mdvorak-iot/esp-lib-template.git
+name: "pc_fan"
+description: Common 4-pin PWM fan controller.
+url: https://github.com/mdvorak-iot/esp-pc-fan.git
 targets:
   - esp32
 dependencies:
