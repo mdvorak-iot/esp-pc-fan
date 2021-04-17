@@ -1,0 +1,9 @@
+menu "Hardware config"
+    config HW_PWM_PIN
+        int "Fan speed control PIN (PWM)"
+        default 25
+
+    config HW_RPM_PIN
+        int "Fan RPM reporting PIN"
+        default 32
+endmenu
