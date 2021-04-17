@@ -20,3 +20,18 @@ and include either of the header files
 ```
 
 For full example, see [pc_fan_example_main.c](./example/main/pc_fan_example_main.c).
+
+## 4-Wire Fan Pins
+
+Standard pinout of PC PWM controlled fan.
+
+![Fan Connector](./assets/connector_mb_4pin_header.png)
+
+| Pin | Name    | Common Color
+| --- | ----    | --- 
+| 1   | GND     | black
+| 2   | +12VDC  | yellow
+| 3   | Sense   | green
+| 4   | Control | blue
+
+This applies to 3-PIN fan as well, except voltage on PIN 2 is used to control the RPM, and PIN 4 is obviously missing.
