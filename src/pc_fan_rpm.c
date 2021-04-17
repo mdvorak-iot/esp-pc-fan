@@ -8,7 +8,7 @@
 
 static const char TAG[] = "pc_fan_rpm";
 
-esp_err_t pc_fan_rpm_init(const struct pc_fan_rpm_config *cfg, pc_fan_rpm_handle_ptr *out_handle)
+esp_err_t pc_fan_rpm_create(const struct pc_fan_rpm_config *cfg, pc_fan_rpm_handle_ptr *out_handle)
 {
     if (cfg == NULL
         || cfg->unit < 0 || cfg->unit >= PCNT_UNIT_MAX
@@ -109,7 +109,7 @@ esp_err_t pc_fan_rpm_counter_value(pc_fan_rpm_handle_ptr handle, int16_t *count)
     return pcnt_get_counter_value(handle->unit, count);
 }
 
-esp_err_t pc_fan_rpm_sampling_init(size_t samples_len, pc_fan_rpm_handle_ptr handle, pc_fan_rpm_sampling_ptr *out_sampling)
+esp_err_t pc_fan_rpm_sampling_create(size_t samples_len, pc_fan_rpm_handle_ptr handle, pc_fan_rpm_sampling_ptr *out_sampling)
 {
     if (handle == NULL || out_sampling == NULL || samples_len < 1)
     {

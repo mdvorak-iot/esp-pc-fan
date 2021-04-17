@@ -22,7 +22,7 @@ struct pc_fan_rpm_handle
 
 typedef struct pc_fan_rpm_handle *pc_fan_rpm_handle_ptr;
 
-esp_err_t pc_fan_rpm_init(const struct pc_fan_rpm_config *cfg, pc_fan_rpm_handle_ptr *out_handle);
+esp_err_t pc_fan_rpm_create(const struct pc_fan_rpm_config *cfg, pc_fan_rpm_handle_ptr *out_handle);
 
 void pc_fan_rpm_delete(pc_fan_rpm_handle_ptr handle);
 
@@ -44,7 +44,7 @@ struct pc_fan_rpm_sampling
 };
 typedef struct pc_fan_rpm_sampling *pc_fan_rpm_sampling_ptr;
 
-esp_err_t pc_fan_rpm_sampling_init(size_t samples_len, pc_fan_rpm_handle_ptr handle, pc_fan_rpm_sampling_ptr *out_sampling);
+esp_err_t pc_fan_rpm_sampling_create(size_t samples_len, pc_fan_rpm_handle_ptr handle, pc_fan_rpm_sampling_ptr *out_sampling);
 
 void pc_fan_rpm_sampling_delete(pc_fan_rpm_sampling_ptr sampling);
 

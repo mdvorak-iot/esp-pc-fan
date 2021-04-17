@@ -31,8 +31,8 @@ void setup()
         .unit = (pcnt_unit_t)HW_RPM_UNIT,
     };
     pc_fan_rpm_handle_ptr rpm_handle = NULL;
-    ESP_ERROR_CHECK(pc_fan_rpm_init(&rpm_cfg, &rpm_handle));
-    ESP_ERROR_CHECK(pc_fan_rpm_sampling_init(HW_RPM_SAMPLES, rpm_handle, &rpm_sampling));
+    ESP_ERROR_CHECK(pc_fan_rpm_create(&rpm_cfg, &rpm_handle));
+    ESP_ERROR_CHECK(pc_fan_rpm_sampling_create(HW_RPM_SAMPLES, rpm_handle, &rpm_sampling));
 }
 
 _Noreturn void app_main()
