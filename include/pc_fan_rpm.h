@@ -23,16 +23,11 @@ struct pc_fan_rpm_config
 struct pc_fan_rpm_handle
 {
     pcnt_unit_t unit;
-    pcnt_channel_t channel;
-    int16_t last_count;
-    uint32_t last_timestamp;
 };
 
-esp_err_t pc_fan_rpm_init(const struct pc_fan_rpm_config *cfg);
+esp_err_t pc_fan_rpm_init(const struct pc_fan_rpm_config *cfg, struct pc_fan_rpm_handle **out_handle);
 
-esp_err_t pc_fan_rpm_start_sampling();
-
-esp_err_t pc_fan_rpm_stop_sampling();
+esp_err_t pc_fan_rpm_counter_value(const struct pc_fan_rpm_handle *handle, int16_t *count);
 
 #ifdef __cplusplus
 }

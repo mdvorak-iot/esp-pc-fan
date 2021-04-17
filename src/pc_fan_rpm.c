@@ -4,7 +4,7 @@
 
 static const char TAG[] = "pc_fan_rpm";
 
-esp_err_t  pc_fan_rpm_init(const struct pc_fan_rpm_config *cfg)
+esp_err_t pc_fan_rpm_init(const struct pc_fan_rpm_config *cfg, struct pc_fan_rpm_handle **out_handle)
 {
     if (cfg == NULL
         || cfg->unit < 0 || cfg->unit >= PCNT_UNIT_MAX
@@ -71,19 +71,21 @@ esp_err_t  pc_fan_rpm_init(const struct pc_fan_rpm_config *cfg)
         return err;
     }
 
-    // Context
-
+    // Handle
+    struct pc_fan_rpm_handle *handle = malloc(sizeof(*handle));
+    handle->unit = pcnt_config.unit;
 
     // OK
+    *out_handle = handle;
     return ESP_OK;
 }
 
-esp_err_t pc_fan_rpm_start_sampling()
+esp_err_t pc_fan_rpm_counter_value(const struct pc_fan_rpm_handle *handle, int16_t *count)
 {
-    return ESP_OK;
-}
+    if (handle == NULL)
+    {
+        return ESP_ERR_INVALID_ARG;
+    }
 
-esp_err_t pc_fan_rpm_stop_sampling()
-{
-    return ESP_OK;
+    return pcnt_get_counter_value(handle->unit, count);
 }
