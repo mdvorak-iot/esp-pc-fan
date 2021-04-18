@@ -204,9 +204,16 @@ esp_err_t pc_fan_rpm_sample(pc_fan_rpm_sampling_ptr sampling, uint16_t *rpm)
     return ESP_OK;
 }
 
-uint16_t pc_fan_rpm_last_value(pc_fan_rpm_sampling_ptr sampling)
+int16_t pc_fan_rpm_sampling_last_count(pc_fan_rpm_sampling_ptr sampling)
 {
-    return sampling ? sampling->rpm : 0;
+    if (!sampling) return 0;
+    return sampling->samples[sampling->samples_index].count;
+}
+
+uint16_t pc_fan_rpm_sampling_last_rpm(pc_fan_rpm_sampling_ptr sampling)
+{
+    if (!sampling) return 0;
+    return sampling->rpm;
 }
 
 static void pc_fan_rpm_sampling_handler(void *arg)

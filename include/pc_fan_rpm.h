@@ -51,7 +51,9 @@ void pc_fan_rpm_sampling_delete(pc_fan_rpm_sampling_ptr sampling);
 
 esp_err_t pc_fan_rpm_sample(pc_fan_rpm_sampling_ptr sampling, uint16_t *rpm);
 
-uint16_t pc_fan_rpm_last_value(pc_fan_rpm_sampling_ptr sampling);
+int16_t pc_fan_rpm_sampling_last_count(pc_fan_rpm_sampling_ptr sampling);
+
+uint16_t pc_fan_rpm_sampling_last_rpm(pc_fan_rpm_sampling_ptr sampling);
 
 esp_err_t pc_fan_rpm_sampling_timer_create(pc_fan_rpm_sampling_ptr sampling, esp_timer_handle_t *out_timer);
 
