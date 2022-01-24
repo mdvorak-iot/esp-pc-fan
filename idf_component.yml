@@ -8,4 +8,4 @@ targets:
   - esp32c3
 dependencies:
   idf:
-    version: ">=4.1"
+    version: ">=4.2"
