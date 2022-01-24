@@ -5,6 +5,6 @@ idf_component_register(
         src/pc_fan_control.c
         src/pc_fan_rpm.c
         INCLUDE_DIRS include
-        PRIV_REQUIRES freertos driver log esp_timer
-        REQUIRES esp_common soc
+        PRIV_REQUIRES freertos log esp_timer
+        REQUIRES esp_common soc driver
 )

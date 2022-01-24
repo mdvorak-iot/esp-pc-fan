@@ -3,7 +3,7 @@
 #include <esp_err.h>
 #include <esp_timer.h>
 #include <hal/gpio_types.h>
-#include <hal/pcnt_types.h>
+#include <driver/pcnt.h>
 
 #ifdef __cplusplus
 extern "C" {
