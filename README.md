@@ -37,11 +37,32 @@ Standard pinout of PC PWM controlled fan.
 
 ![Fan Connector](./assets/connector_mb_4pin_header.png)
 
-| Pin | Name    | Common Color
-| --- | ----    | --- 
-| 1   | GND     | black
-| 2   | +12VDC  | yellow
-| 3   | Sense   | green
-| 4   | Control | blue
+| Pin | Name    | Color Scheme 1 | Color Scheme 2 |
+|-----|---------|----------------|----------------|
+| 1   | GND     | Black          | Black          |
+| 2   | +12VDC  | Yellow         | Red            |
+| 3   | Sense   | Green          | Yellow         |
+| 4   | Control | Blue           | Blue           |
 
 This applies to 3-PIN fan as well, except voltage on PIN 2 is used to control the RPM, and PIN 4 is obviously missing.
+
+## Development
+
+Prepare [ESP-IDF development environment](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/index.html#get-started-get-prerequisites)
+.
+
+Configure example application with
+
+```
+cd example/
+idf.py menuconfig
+```
+
+Flash it via (in the example dir)
+
+```
+idf.py build flash monitor
+```
+
+As an alternative, you can use [PlatformIO](https://docs.platformio.org/en/latest/core/installation.html) to build and
+flash the example project.
