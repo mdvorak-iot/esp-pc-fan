@@ -8,6 +8,14 @@
 extern "C" {
 #endif
 
+#ifndef PC_FAN_LEDC_SPEED_MODE
+#if CONFIG_PC_FAN_LEDC_HIGH_SPEED_MODE
+#define PC_FAN_LEDC_SPEED_MODE LEDC_HIGH_SPEED_MODE
+#elif CONFIG_PC_FAN_LEDC_LOW_SPEED_MODE
+#define PC_FAN_LEDC_SPEED_MODE LEDC_LOW_SPEED_MODE
+#endif
+#endif
+
 esp_err_t pc_fan_control_init(gpio_num_t pin, ledc_timer_t timer, ledc_channel_t channel);
 
 /**

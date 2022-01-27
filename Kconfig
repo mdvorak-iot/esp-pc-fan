@@ -1,0 +1,12 @@
+menu "PC Fan"
+    choice PC_FAN_LEDC_SPEED_MODE
+        prompt "LEDC Speed Mode"
+        default PC_FAN_LEDC_HIGH_SPEED_MODE if IDF_TARGET_ESP32
+        default PC_FAN_LEDC_LOW_SPEED_MODE if !IDF_TARGET_ESP32
+
+        config PC_FAN_LEDC_HIGH_SPEED_MODE
+            bool "LEDC high speed mode"
+        config PC_FAN_LEDC_LOW_SPEED_MODE
+            bool "LEDC low speed mode"
+    endchoice
+endmenu

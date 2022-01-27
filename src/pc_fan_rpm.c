@@ -186,7 +186,7 @@ esp_err_t pc_fan_rpm_sample(pc_fan_rpm_sampling_ptr sampling, uint16_t *rpm)
     sampling->value_total -= oldest->value;
     sampling->value_total += value;
 
-    // Add new readout - overwrite oldest index and use it as new one (this handles index overflow as well)
+    // Add new readout - overwrite the oldest index and use it as new one (this handles index overflow as well)
     oldest->timestamp = now;
     oldest->count = count;
     oldest->value = value;
