@@ -3,7 +3,9 @@
 #include <esp_event.h>
 #include <esp_log.h>
 #include <pc_fan_control.h>
+#if !CONFIG_IDF_TARGET_ESP32C3
 #include <pc_fan_rpm.h>
+#endif
 
 #define HW_PWM_PIN CONFIG_HW_PWM_PIN
 #define HW_PWM_TIMER LEDC_TIMER_0
@@ -14,7 +16,9 @@
 
 static const char TAG[] = "example";
 
+#if !CONFIG_IDF_TARGET_ESP32C3
 static pc_fan_rpm_sampling_ptr rpm_sampling = NULL;
+#endif
 
 void setup()
 {
@@ -26,6 +30,7 @@ void setup()
     ESP_ERROR_CHECK(pc_fan_control_init(HW_PWM_PIN, HW_PWM_TIMER, HW_PWM_CHANNEL));
     ESP_ERROR_CHECK(pc_fan_control_set_duty(HW_PWM_CHANNEL, 0.5f));
 
+#if !CONFIG_IDF_TARGET_ESP32C3
     // Init RPM
     struct pc_fan_rpm_config rpm_cfg = {
         .pin = (gpio_num_t)HW_RPM_PIN,
@@ -34,6 +39,7 @@ void setup()
     pc_fan_rpm_handle_ptr rpm_handle = NULL;
     ESP_ERROR_CHECK(pc_fan_rpm_create(&rpm_cfg, &rpm_handle));
     ESP_ERROR_CHECK(pc_fan_rpm_sampling_create(HW_RPM_SAMPLES, rpm_handle, &rpm_sampling));
+#endif
 }
 
 _Noreturn void app_main()
@@ -52,7 +58,9 @@ _Noreturn void app_main()
 
         // Print RPM
         uint16_t rpm = 0;
+#if !CONFIG_IDF_TARGET_ESP32C3
         ESP_ERROR_CHECK_WITHOUT_ABORT(pc_fan_rpm_sample(rpm_sampling, &rpm));
+#endif
         ESP_LOGI(TAG, "rpm: %d\t duty: %d", rpm, (int)(duty * 100));
 
         // Wait
