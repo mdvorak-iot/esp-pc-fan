@@ -1,6 +1,6 @@
 # esp-pc-fan
 
-![platformio build](https://github.com/mdvorak-iot/esp-pc-fan/workflows/platformio%20build/badge.svg)
+[![build](https://github.com/mdvorak/esp-pc-fan/actions/workflows/build.yml/badge.svg)](https://github.com/mdvorak/esp-pc-fan/actions/workflows/build.yml)
 
 Common 4-pin PWM fan controller.
 
@@ -9,7 +9,7 @@ Common 4-pin PWM fan controller.
 To reference this library by your project, add it as git submodule, using command
 
 ```shell
-git submodule add https://github.com/mdvorak-iot/esp-pc-fan.git components/pc_fan
+git submodule add https://github.com/mdvorak/esp-pc-fan.git components/pc_fan
 ```
 
 and include either of the header files

@@ -1,6 +1,6 @@
 name: "pc_fan"
 description: Common 4-pin PWM fan controller.
-url: https://github.com/mdvorak-iot/esp-pc-fan.git
+url: https://github.com/mdvorak/esp-pc-fan.git
 targets:
   - esp32
   - esp32s2
