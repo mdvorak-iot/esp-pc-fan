@@ -2,6 +2,7 @@
 
 ### [1.0.1](https://github.com/mdvorak/esp-pc-fan/compare/v1.0.0...v1.0.1) (2022-02-07)
 
+MOVED REPOSITORY TO https://github.com/mdvorak/esp-pc-fan
 
 ### Bug Fixes
 
