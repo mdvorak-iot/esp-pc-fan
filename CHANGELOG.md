@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.0.1](https://github.com/mdvorak/esp-pc-fan/compare/v1.0.0...v1.0.1) (2022-02-07)
+
+
+### Bug Fixes
+
+* make LEDC_HIGH_SPEED_MODE default ([f10cbbd](https://github.com/mdvorak/esp-pc-fan/commit/f10cbbd2e09dd0dff2ecaf7335ee821aaa7e1fce))
+
 ## 1.0.0 (2022-01-27)
 
 
