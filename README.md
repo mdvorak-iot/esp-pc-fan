@@ -1,6 +1,6 @@
 # esp-pc-fan
 
-[![build](https://github.com/mdvorak/esp-pc-fan/actions/workflows/build.yml/badge.svg)](https://github.com/mdvorak/esp-pc-fan/actions/workflows/build.yml)
+[![build](https://github.com/mdvorak/esp-pc-fan/actions/workflows/test.yml/badge.svg)](https://github.com/mdvorak/esp-pc-fan/actions/workflows/test.yml)
 
 Common 4-pin PWM fan controller.
 
