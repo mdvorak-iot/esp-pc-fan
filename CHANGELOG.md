@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.0.2](https://github.com/mdvorak/esp-pc-fan/compare/v1.0.1...v1.0.2) (2022-03-05)
+
+
+### Bug Fixes
+
+* **ci:** create draft PRs for releases ([d02c453](https://github.com/mdvorak/esp-pc-fan/commit/d02c453f5abeb718e8f6ff491bff9dcb75d8b74f))
+
 ### [1.0.1](https://github.com/mdvorak/esp-pc-fan/compare/v1.0.0...v1.0.1) (2022-02-07)
 
 MOVED REPOSITORY TO https://github.com/mdvorak/esp-pc-fan
