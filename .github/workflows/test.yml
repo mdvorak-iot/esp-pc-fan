@@ -9,6 +9,9 @@ on:
     branches: [ "main" ]
     paths-ignore: [ "*.md" ]
 
+permissions:
+  contents: read
+
 env:
   IDF_COMPONENT_MANAGER: "1"
 
@@ -32,7 +35,7 @@ jobs:
           - { idf_target: esp32h2, idf_ver: v4.4 }
     container: espressif/idf:release-${{ matrix.idf_ver }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Setup Component Manager
         run: |
@@ -50,7 +53,7 @@ jobs:
   platformio:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Setup Python
         uses: actions/setup-python@v3
